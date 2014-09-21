@@ -20,7 +20,7 @@ shinyServer( function(input, output) {
     coef<-c(33.08, .5554, 12,4.5)
     ndata<-data%*%coef
     
-    output$wg <- renderText(wg())
+    output$wg <- renderText(paste(wg(), "K USD"))
     output$ag <- renderText(ag())
     output$ed <- renderText({switch(ed(),
                     "1"="<High School",
@@ -50,10 +50,11 @@ shinyServer( function(input, output) {
     
     output$hist <-renderPlot({
         if (input$goButton==0 | input$plotButton == 0) "You have not pressed the predict and plot button" 
-        else {hist(ndata, xlab = "Annual Salary", main="Histogram of Salaries", col = "lightgreen", breaks = 20)
+        else {hist(ndata, xlab = "Annual Salary (K USD)", main="Histogram of Salaries", col = "lightgreen", breaks = 20)
               lines(x=c(pwg(),pwg()), y=c(0,500), col = "red", lwd=5)
               lines(x=c(wg(),wg()), y=c(0,500), col = "blue", lwd=5)
-              legend("topright", legend=c("predicted salary", "input salary"), col = c("red", "blue"), lty = 1, bty="n", lwd = 5)}
+              legend("topright", legend=c("predicted salary", "input salary"), 
+                     col = c("red", "blue"), lty = 1, bty="n", lwd = 5)}
        # else "Quit processing"
         
     })
