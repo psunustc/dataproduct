@@ -1,0 +1,58 @@
+---
+title: "Project APP: Predicting your salary"
+author: "David Peng"
+date: "September 20, 2014"
+output: slidy_presentation
+---
+
+## Overview
+####Main components:
+- Input panel
+- Verify input infos
+- Output
+
+####Algorithm
+- Wage data set in ISLR
+- multivariable linea regression model
+- prediction
+
+## Input panel
+####Items to input 
+- all with default values
+- Your wage, text input
+- Your Age, a slide bar
+- Your education, a select bar (5 categories)
+- Your jobclass, a select bar (2 categories)
+
+## Output panel
+####Item to verify 
+- shows input wage/default
+- shows input age/default
+- shows input education/default
+- shows input jobclass/default
+- reactive variables, update in real time
+
+####Items to output
+- all controled by buttons
+- predicted value and percentile
+- message based on the input/predict wages
+- histogram shows your percentile
+
+## Algorithm
+```{r, echo=FALSE}
+data<-matrix(c(rep(1,1000),rgamma(n = 1000, shape = 13.5, rate = .32),
+                   sample(c(rep(1,89), rep(2,324), rep(3,217), rep(4,228), rep(5,142))),
+                   sample(c(rep(1,515), rep(2, 485)))), nrow=1000, ncol=4)
+coef<-c(43.08, .5554, 12,4.5)
+data<-data%*%coef
+```
+- Wage data set in ISLR
+- multivariable linea regression model
+- prediction
+
+```{r, echo=FALSE}
+hist(data, xlab = "Annual Salary", main="Histogram of Salaries", col = "lightgreen", breaks = 20)
+lines(x=c(100,100), y=c(0,500), col = "red", lwd=5)
+lines(x=c(90,90), y=c(0,500), col = "blue", lwd=5)
+legend("topright", legend=c("predicted salary", "input salary"), col = c("red", "blue"), lty = 1, bty="n", lwd = 5)
+```

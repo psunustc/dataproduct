@@ -1,0 +1,39 @@
+---
+title: "HOWTOUSE MANUAL"
+author: "peng"
+date: "September 20, 2014"
+output: pdf_document
+---
+
+## Features
+Main components in this APP are: Input panel, Verify input infos, Output. 
+
+In the Input panel, all items are set up with default values. Items to input are: "Your wage"; "Your Age"; "Your education"; and "Your jobclass". The wage item, text input, is to accept real numbers, usually it is a positve number. The age item is a slide var with min = 18 and max = 80 left for you to slide choose. The education item is a selectbar with five choices: "<High School", "High School Grad", "Some College", "College Grad", "Advanced Degree". The jobclass item has two choices, "industrial" and "information".
+
+The Verify input part simply output your input for you to make any necessary changes. All the input variables are treated as reactive ones, so they will change in real time with any update. 
+
+The Output part has three items all triggered by the two buttons in the input area. Once triggered, firstly the predicted salary and its percentile will show up. Followed by a message whose content is based on the input and predicted wages. Finally a histogram of salary data and your input/predicted salaries are plotted.
+
+## Algorithm(You can skip this part to the next if you just want to know the usge)
+I used the Wage data set in the ISLR package and lm to generate the linear model btween wage and age+education+jobclass. Since the data set has 3000x12 data points and I do not want the training proc to be too long on the serve, I just copy the coesfficients from the final model. In the app source code, I regenerate the 1000x3 data set with age, education and jobclass. I use gamma distribution with shape = 13.5 and rate = .32 to generate the age data. Use the propotions of the each factor in the original data set to regenerate education and jobclass data. Along with the coefficients to give the wages necessary for the histogram. In this case we do not have to load other library than the basic ones and "shiny", which will be safe for use in case the server do not have the necessary libs this APP needs.
+
+## Usage
+The usage is very simple and streightforward. First, you input the four items by input numbers, slide the bar, and choose from the select menu. Second, you go over all the input information on the right side and make any necessary changes. Finally, you push the "Predict!" button to see the predicted value and "plot" button to see the histogram. You can redo the whole process as many times as you want. 
+
+## Codes and sample outputs
+```{r, echo=TRUE}
+data<-matrix(c(rep(1,1000),rgamma(n = 1000, shape = 13.5, rate = .32),
+               sample(c(rep(1,89), rep(2,324), rep(3,217), rep(4,228), rep(5,142))),
+               sample(c(rep(1,515), rep(2, 485)))), nrow=1000, ncol=4)
+coef<-c(43.08, .5554, 12,4.5)
+data<-data%*%coef
+
+c("Predicted salary: 105f thousand USD with percentile 60%")
+
+hist(data, xlab = "Annual Salary", main="Histogram of Salaries", 
+     col = "lightgreen", breaks = 20)
+lines(x=c(100,100), y=c(0,500), col = "red", lwd=5)
+lines(x=c(90,90), y=c(0,500), col = "blue", lwd=5)
+legend("topright", legend=c("predicted salary", "input salary"), 
+       col = c("red", "blue"), lty = 1, bty="n", lwd = 5)
+```

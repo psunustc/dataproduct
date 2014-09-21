@@ -1,0 +1,35 @@
+shinyUI(pageWithSidebar( 
+    headerPanel("PREDICTING YOUR SALARY"), 
+    sidebarPanel(
+        p('Hi, welcome to the simple annual salary estimator! Have fun!'),
+        HTML('<br/>'),
+        textInput(inputId="wg", label = "Salary you have or want to have in 1,000 USD", value = "90"),
+        sliderInput("ag", 
+                    label = "Choose your age:",
+                    min = 18, max = 80, value = 32),
+         selectInput("ed", 
+                    label = "Choose your education:",
+                    choices = c("<High School", "High School Grad",
+                                "Some College", "College Grad", "Advanced Degree"),
+                    selected = "Some College"),
+        selectInput("jc", 
+                    label = "Choose your jobclass",
+                    choices = c("Industrial",
+                                "Information"),
+                    selected = "Industrial"),
+        actionButton("goButton", "Prediction!"),
+        actionButton("plotButton", "Plot!")
+    ),
+    mainPanel(
+        p('INPUT SALARY'), textOutput('wg'),
+        p('INPUT AGE'), textOutput('ag'),
+        p('INPUT EDUCATION'), textOutput('ed'),
+        p(''),
+        p('INPUT JOBCLASS'), textOutput('jc'),
+        HTML('<br/>'),
+        p('YOUR SALARY BASED ON OUR PREDICTION'), textOutput('pwg'),
+        textOutput('msg'),
+        HTML(rep('<br/>', 4)),
+        p('THE SALARY HISTOGRAM AND YOUR PERCENTILE'), plotOutput('hist')
+    ) 
+))
