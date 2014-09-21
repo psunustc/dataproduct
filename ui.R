@@ -18,7 +18,13 @@ shinyUI(pageWithSidebar(
                                 "Information"),
                     selected = "Industrial"),
         actionButton("goButton", "Prediction!"),
-        actionButton("plotButton", "Plot!")
+        actionButton("plotButton", "Plot!"),
+        HTML('<br/>'),
+        actionButton("docButton", "Introduction"),
+        actionButton("usageButton", "Usage"),
+        HTML('<br/>'),
+        textOutput('doc'),   
+        textOutput('usage')
     ),
     mainPanel(
         p('INPUT SALARY'), textOutput('wg'),

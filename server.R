@@ -58,4 +58,26 @@ shinyServer( function(input, output) {
        # else "Quit processing"
         
     })
+    
+    output$usage <- renderText({
+        if (input$usageButton %% 2 ==0) ""
+        else 'USAGE: The usage is very simple and streightforward. First, you input the 
+        four items by input numbers, slide the bar, and choose from the select 
+        menu. Second, you go over all the input information on the right side 
+        and make any necessary changes. Finally, you push the "Predict!" 
+        button to see the predicted value and "plot" button to see the histogram. 
+        You can redo the whole process as many times as you want.'
+    })
+    
+    output$doc <- renderText({
+        if (input$docButton %% 2 ==0) ""
+        else 'INTRODUCTION: In the Input panel, all items are set up with default values. 
+        Items to input are: "Your wage"; "Your Age"; "Your education"; and 
+        "Your jobclass". The wage item, text input, is to accept real numbers, 
+        usually it is a positve number. The age item is a slide var with min = 18 
+        and max = 80 left for you to slide choose. The education item is a 
+        selectbar with five choices: "$<$High School", "High School Grad", 
+        "Some College", "College Grad", "Advanced Degree". The jobclass 
+        item has two choices, "industrial" and "information".'
+    })
 } )
